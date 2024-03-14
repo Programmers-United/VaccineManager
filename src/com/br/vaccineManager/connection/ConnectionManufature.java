@@ -8,7 +8,7 @@ public class ConnectionManufature {
 
 	public Connection getConnection() {
 		try {
-			return DriverManager.getConnection("jdbc:postgresql://localhost:5432/nameDoBanco", "postgres", "senha");
+			return DriverManager.getConnection("jdbc:postgresql://localhost:5432/vaccinatio", "postgres", "postgres");
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}

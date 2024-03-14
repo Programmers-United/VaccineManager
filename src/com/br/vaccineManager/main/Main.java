@@ -5,12 +5,15 @@ import java.util.List;
 import java.util.Scanner;
 
 import com.br.vaccineManager.dao.PatientDAO;
+import com.br.vaccineManager.dao.VaccinatioDAO;
 import com.br.vaccineManager.entities.Patient;
+import com.br.vaccineManager.entities.Vaccination;
 
 public class Main {
 	private static int controller;
 	private static final Scanner scanner = new Scanner(System.in);
 	private static final PatientDAO pacienteDao = new PatientDAO();
+	private static final VaccinatioDAO vaccinationDao = new VaccinatioDAO();
 	
 	//Método para adicionar um paciente
 	private static void addPatient () {
@@ -23,7 +26,7 @@ public class Main {
 		String genre = scanner.nextLine();
 		System.out.println("Informe o numero de telefone: ");
 		String tephone = scanner.nextLine();
-		System.out.println("Informe o emeail do paciente: ");
+		System.out.println("Informe o email do paciente: ");
 		String email = scanner.nextLine();
 		
 		Patient paciente = new Patient();
@@ -37,6 +40,30 @@ public class Main {
 		pacienteDao.createdPatient(paciente);
 	}
 	
+	//Método para adicionar uma Vacinacao
+	private static void addVaccination () {
+		System.out.println("Informe o nome da Vacina : ");
+		scanner.nextLine();
+		String name = scanner.nextLine();
+		System.out.println("Informe a data de vacinacao: ");
+		String date = scanner.nextLine();
+		System.out.println("Informe o lote da vacina: ");
+		String lote = scanner.nextLine();
+		System.out.println("Informe o nome do medico: ");
+		String medico = scanner.nextLine();
+		System.out.println("Informe o id do paciente: ");
+		int idPaciente = scanner.nextInt();
+		
+		Vaccination vacinacao = new Vaccination();
+		
+		vacinacao.setNomeVaccine(name);
+		vacinacao.setData(date);
+		vacinacao.setLote(lote);
+		vacinacao.setMedico(medico);
+		vacinacao.setIdPaciente(idPaciente);
+		
+		vaccinationDao.createdVaccination(vacinacao);
+	}
 	//Método para listar dados de um paciente
 	private static void listDataPatient () throws SQLException {
 		System.out.println("Informe o id do paciente: ");
@@ -52,6 +79,23 @@ public class Main {
 		System.out.println("Nascimento: " + paciente.getDataNascimento());
 		System.out.println("Genero: " + paciente.getGenre());
 		System.out.println("Telefone: " + paciente.getNumTelefone());
+	}
+
+	//Método para listar dados de uma vacinacao
+	private static void listDataVaccination () throws SQLException {
+		System.out.println("Informe o id da Vacinacao: ");
+		int id = scanner.nextInt();
+		
+		Vaccination vacinacao = new Vaccination();
+		vacinacao = vaccinationDao.searchVaccination(id);
+
+		System.out.println("====== Dados do Vacinacao =======");
+		System.out.println("Id: " + vacinacao.getId());
+		System.out.println("Vacina: " + vacinacao.getNomeVaccine());
+		System.out.println("Lote: " + vacinacao.getLote());
+		System.out.println("Data: " + vacinacao.getData());
+		System.out.println("Medico: " + vacinacao.getMedico());
+		System.out.println("Id do Paciente: " + vacinacao.getIdPaciente());
 	}
 	
 	//Méotodo para editar dados de um paciente
@@ -83,12 +127,48 @@ public class Main {
 		pacienteDao.editPacient(paciente);
 	}
 	
+	//Méotodo para editar dados de um paciente
+	private static void editVaccination() {
+		System.out.println("Informe o id da vacinacao: ");
+		int id = scanner.nextInt();
+		
+		System.out.println("Informe o nome da Vacina : ");
+		scanner.nextLine();
+		String name = scanner.nextLine();
+		System.out.println("Informe a data de vacinacao: ");
+		String date = scanner.nextLine();
+		System.out.println("Informe o lote da vacina: ");
+		String lote = scanner.nextLine();
+		System.out.println("Informe o nome do medico: ");
+		String medico = scanner.nextLine();
+		System.out.println("Informe o id do paciente: ");
+		int idPaciente = scanner.nextInt();
+		
+		Vaccination vacinacao = new Vaccination();
+		
+		vacinacao.setId(id);
+		vacinacao.setNomeVaccine(name);
+		vacinacao.setData(date);
+		vacinacao.setLote(lote);
+		vacinacao.setMedico(medico);
+		vacinacao.setIdPaciente(idPaciente);
+		
+		vaccinationDao.editVaccination(vacinacao);
+	}
 	//Método para deletar paciente
 	private static void deletePatient () {
 		System.out.println("Informe o id do paciente: ");
 		int id = scanner.nextInt();
 		
 		pacienteDao.removePatient(id);
+	}
+
+	//Método para deletar vacinacao
+	private static void deleteVaccination () {
+		System.out.println("Informe o id da vacinacao: ");
+		int id = scanner.nextInt();
+		
+		vaccinationDao.removePatient(id);
 	}
 	
 	//Método para listar os pacientes
@@ -105,6 +185,21 @@ public class Main {
 			System.out.println();
 		}
 	}
+
+	//Método para listar os pacientes
+	private static void listAllVaccinations () {
+		List<Vaccination> vacinacoes = vaccinationDao.allVaccinations();
+		
+		for (Vaccination vaccination : vacinacoes) {
+			System.out.println("Id: " + vaccination.getId());
+			System.out.println("Vacina: " + vaccination.getNomeVaccine());
+			System.out.println("Lote: " + vaccination.getLote());
+			System.out.println("Data: " + vaccination.getData());
+			System.out.println("Medico: " + vaccination.getMedico());
+			System.out.println("Id do Paciente: " + vaccination.getIdPaciente());
+			System.out.println();
+		}
+	}
 	
 	public static void main(String[] args) throws SQLException {
 		
@@ -116,6 +211,11 @@ public class Main {
 			System.out.println("3 - Para editar dados de um paciente");
 			System.out.println("4 - Para remover um paciente");
 			System.out.println("5 - Para listar todos os pacientes");
+			System.out.println("6 - Adicionar uma nova Vacinacao");
+			System.out.println("7 - Listar dados de uma Vacinacao");
+			System.out.println("8 - Para editar dados de uma Vacinacao");
+			System.out.println("9 - Para remover uma Vacinacao");
+			System.out.println("10 - Para listar todas as Vacinacoes");
 			System.out.println("0 - Para enecerrar o sistema");
 			System.out.println("===============================");
 			controller = scanner.nextInt();
@@ -139,6 +239,26 @@ public class Main {
 			
 			case 5:
 				listAllPatients();
+			break;
+			
+			case 6:
+				addVaccination();
+			break;
+			
+			case 7:
+				listDataVaccination();
+			break;
+			
+			case 8:
+				editVaccination();
+			break;
+		
+			case 9:
+				deleteVaccination();
+			break;
+			
+			case 10:
+				listAllVaccinations();
 			break;
 			
 			case 0:
