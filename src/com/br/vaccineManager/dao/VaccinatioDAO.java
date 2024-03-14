@@ -20,7 +20,7 @@ public class VaccinatioDAO {
 	
     //Inserir dados de uma vacinacao:
     public void createdVaccination (Vaccination vacinacao) {
-		String sql = "insert into vacinacao (vacina, dataVacinacao, lote, nomeMedico, idvacinacao) values (?,?,?,?,?)";
+		String sql = "insert into vacinacao (vacina, dataVacinacao, lote, nomeMedico, idPaciente) values (?,?,?,?,?)";
 		try {
 			PreparedStatement stmt = conexao.prepareStatement(sql);
 			

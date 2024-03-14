@@ -54,16 +54,21 @@ public class Main {
 		System.out.println("Informe o id do paciente: ");
 		int idPaciente = scanner.nextInt();
 		
-		Vaccination vacinacao = new Vaccination();
-		
-		vacinacao.setNomeVaccine(name);
-		vacinacao.setData(date);
-		vacinacao.setLote(lote);
-		vacinacao.setMedico(medico);
-		vacinacao.setIdPaciente(idPaciente);
-		
-		vaccinationDao.createdVaccination(vacinacao);
+		if (pacienteDao.patientExists(idPaciente)) {
+			Vaccination vacinacao = new Vaccination();
+			
+			vacinacao.setNomeVaccine(name);
+			vacinacao.setData(date);
+			vacinacao.setLote(lote);
+			vacinacao.setMedico(medico);
+			vacinacao.setIdPaciente(idPaciente);
+			
+			vaccinationDao.createdVaccination(vacinacao);			
+		} else {
+			System.out.println("Usuario nao encontrado ou nao existe");
+		}
 	}
+	
 	//Método para listar dados de um paciente
 	private static void listDataPatient () throws SQLException {
 		System.out.println("Informe o id do paciente: ");
@@ -72,13 +77,15 @@ public class Main {
 		Patient paciente = new Patient();
 		paciente = pacienteDao.searchPatient(id);
 
-		System.out.println("====== Dados do Paciente =======");
-		System.out.println("Id: " + paciente.getId());
-		System.out.println("Name: " + paciente.getName());
-		System.out.println("Email: " + paciente.getEmail());
-		System.out.println("Nascimento: " + paciente.getDataNascimento());
-		System.out.println("Genero: " + paciente.getGenre());
-		System.out.println("Telefone: " + paciente.getNumTelefone());
+		if (paciente.getId() != 0 ) {			
+			System.out.println("====== Dados do Paciente =======");
+			System.out.println("Id: " + paciente.getId());
+			System.out.println("Name: " + paciente.getName());
+			System.out.println("Email: " + paciente.getEmail());
+			System.out.println("Nascimento: " + paciente.getDataNascimento());
+			System.out.println("Genero: " + paciente.getGenre());
+			System.out.println("Telefone: " + paciente.getNumTelefone());
+		}
 	}
 
 	//Método para listar dados de uma vacinacao
@@ -89,13 +96,15 @@ public class Main {
 		Vaccination vacinacao = new Vaccination();
 		vacinacao = vaccinationDao.searchVaccination(id);
 
-		System.out.println("====== Dados do Vacinacao =======");
-		System.out.println("Id: " + vacinacao.getId());
-		System.out.println("Vacina: " + vacinacao.getNomeVaccine());
-		System.out.println("Lote: " + vacinacao.getLote());
-		System.out.println("Data: " + vacinacao.getData());
-		System.out.println("Medico: " + vacinacao.getMedico());
-		System.out.println("Id do Paciente: " + vacinacao.getIdPaciente());
+		if (vacinacao.getId() != 0) {
+			System.out.println("====== Dados do Vacinacao =======");
+			System.out.println("Id: " + vacinacao.getId());
+			System.out.println("Vacina: " + vacinacao.getNomeVaccine());
+			System.out.println("Lote: " + vacinacao.getLote());
+			System.out.println("Data: " + vacinacao.getData());
+			System.out.println("Medico: " + vacinacao.getMedico());
+			System.out.println("Id do Paciente: " + vacinacao.getIdPaciente());			
+		}
 	}
 	
 	//Méotodo para editar dados de um paciente
@@ -144,17 +153,22 @@ public class Main {
 		System.out.println("Informe o id do paciente: ");
 		int idPaciente = scanner.nextInt();
 		
-		Vaccination vacinacao = new Vaccination();
-		
-		vacinacao.setId(id);
-		vacinacao.setNomeVaccine(name);
-		vacinacao.setData(date);
-		vacinacao.setLote(lote);
-		vacinacao.setMedico(medico);
-		vacinacao.setIdPaciente(idPaciente);
-		
-		vaccinationDao.editVaccination(vacinacao);
+		if (pacienteDao.patientExists(idPaciente)) {
+			Vaccination vacinacao = new Vaccination();
+			
+			vacinacao.setId(id);
+			vacinacao.setNomeVaccine(name);
+			vacinacao.setData(date);
+			vacinacao.setLote(lote);
+			vacinacao.setMedico(medico);
+			vacinacao.setIdPaciente(idPaciente);
+			
+			vaccinationDao.editVaccination(vacinacao);			
+		} else {
+			System.out.println("Usario nao existe ou nao econtrado");
+		}
 	}
+	
 	//Método para deletar paciente
 	private static void deletePatient () {
 		System.out.println("Informe o id do paciente: ");
@@ -205,19 +219,19 @@ public class Main {
 		
 		while (true) {
 			
-			System.out.println("============= MENU =============");
+			System.out.println("===================== MENU =====================");
 			System.out.println("1 - Adicionar um novo paciente");
 			System.out.println("2 - Listar dados de um paciente");
 			System.out.println("3 - Para editar dados de um paciente");
 			System.out.println("4 - Para remover um paciente");
 			System.out.println("5 - Para listar todos os pacientes");
-			System.out.println("6 - Adicionar uma nova Vacinacao");
-			System.out.println("7 - Listar dados de uma Vacinacao");
-			System.out.println("8 - Para editar dados de uma Vacinacao");
-			System.out.println("9 - Para remover uma Vacinacao");
-			System.out.println("10 - Para listar todas as Vacinacoes");
+			System.out.println("6 - Adicionar um novo registro de vacinacao");
+			System.out.println("7 - Listar dados de um registro de vacinacao");
+			System.out.println("8 - Para editar dados de um registro de vacinacao");
+			System.out.println("9 - Para remover um registro de vacinacao");
+			System.out.println("10 - Para listar todas os registros de vacinacoes");
 			System.out.println("0 - Para enecerrar o sistema");
-			System.out.println("===============================");
+			System.out.println("==================================================");
 			controller = scanner.nextInt();
 			
 			switch (controller) {
